@@ -31,6 +31,9 @@ class Recipe
     #[Assert\NotBlank]
     private ?string $instructions = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageFilename = null;
+
     /**
      * @var Collection<int, Ingredient>
      */
@@ -85,6 +88,18 @@ class Recipe
         return $this;
     }
 
+        public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): static
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Ingredient>
      */
@@ -105,7 +120,7 @@ class Recipe
 
     public function removeIngredient(Ingredient $ingredient): static
     {
-       
+
         $this->ingredients->removeElement($ingredient);
 
         return $this;

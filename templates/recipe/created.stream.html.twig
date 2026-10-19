@@ -1,0 +1,23 @@
+{# 1. Add the new card at the top of the list #}
+<turbo-stream action="prepend" target="recipe-list">
+    <template>
+        {{ include('recipe/_card.html.twig') }}
+    </template>
+</turbo-stream>
+
+{# 2. Remove the "No recipes yet" text (does nothing if it's not there) #}
+<turbo-stream action="remove" target="recipe-list-empty"></turbo-stream>
+
+{# 3. Replace the filled form with an empty one #}
+<turbo-stream action="replace" target="recipe-form">
+    <template>
+        {{ include('recipe/_form.html.twig') }}
+    </template>
+</turbo-stream>
+
+{# 4. Show the success message #}
+<turbo-stream action="update" target="flash-messages">
+    <template>
+        <div class="alert alert-success">Recipe "{{ recipe.title }}" was saved.</div>
+    </template>
+</turbo-stream>

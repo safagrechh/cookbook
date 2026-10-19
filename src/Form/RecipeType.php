@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class RecipeType extends AbstractType
 {
@@ -20,6 +22,15 @@ class RecipeType extends AbstractType
             ->add('preparationTime', IntegerType::class, [
                 'label' => 'Preparation time (minutes)',
                 'attr' => ['min' => 1],
+            ])
+                        ->add('image', FileType::class, [
+                'label' => 'Image (optional)',
+                'mapped' => false,
+                'required' => false,
+                'attr' => ['accept' => 'image/*'],
+                'constraints' => [
+                    new Image(maxSize: '2M'),
+                ],
             ])
             ->add('ingredients', CollectionType::class, [
                 'entry_type' => IngredientType::class,

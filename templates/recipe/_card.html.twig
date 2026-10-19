@@ -9,4 +9,18 @@
             </a>
         </div>
     </article>
+
+    <div class="col">
+    <article class="card h-100 shadow-sm">
+        {% if recipe.imageFilename %}
+            <img src="{{ asset('uploads/recipes/' ~ recipe.imageFilename) }}"
+                 class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+        {% else %}
+            <div class="card-img-top recipe-card-img bg-light d-flex align-items-center justify-content-center fs-1">
+                🍽️
+            </div>
+        {% endif %}
+    </article>
+</div>
+
 </div>
