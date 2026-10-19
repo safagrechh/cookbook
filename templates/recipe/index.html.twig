@@ -3,34 +3,75 @@
 {% block title %}Cookbook{% endblock %}
 
 {% block body %}
-<main class="container py-4">
-    <h1 class="mb-4">Cookbook</h1>
+{% set latestRecipe = recipes is empty ? null : recipes|first %}
+<main class="page-content">
+    <section class="hero-panel">
+        <div>
+            <span class="eyebrow">Modern kitchen dashboard</span>
+            <h1 class="display-5 mb-3">Keep every recipe beautifully organized and easy to revisit.</h1>
+            <p class="hero-panel__lead">
+                Capture ideas fast, browse your collection in a cleaner layout, and jump into cooking with ingredients and steps that are easier to scan.
+            </p>
+        </div>
 
-    <div id="flash-messages">
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}
-    </div>
-
-    <section class="card mb-5">
-        <div class="card-body">
-            <h2 class="h4 mb-3">Add a recipe</h2>
-            {{ include('recipe/_form.html.twig') }}
+        <div class="hero-panel__stats">
+            <div class="stat-chip">
+                <strong>{{ recipes|length }}</strong>
+                <span>recipes saved</span>
+            </div>
+            <div class="stat-chip">
+                <strong>{% if latestRecipe is null %}0{% else %}{{ latestRecipe.ingredients|length }}+{% endif %}</strong>
+                <span>ingredients in your latest recipe</span>
+            </div>
         </div>
     </section>
 
-    <section>
-        <h2 class="h4 mb-3">Recipes</h2>
+    <div id="flash-messages" class="flash-stack">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success flash-card">{{ message }}</div>
+        {% endfor %}
+    </div>
 
-        {% if recipes is empty %}
-            <p id="recipe-list-empty" class="text-muted">No recipes yet. Add your first one above!</p>
-        {% endif %}
+    <section class="content-grid">
+        <aside class="composer-column">
+            <div class="section-card composer-card">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">New recipe</span>
+                        <h2>Add something worth cooking again</h2>
+                    </div>
+                    <p>Build a recipe with ingredients, a photo, and step-by-step instructions.</p>
+                </div>
 
-        <div id="recipe-list" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-            {% for recipe in recipes %}
-                {{ include('recipe/_card.html.twig') }}
-            {% endfor %}
-        </div>
+                {{ include('recipe/_form.html.twig') }}
+            </div>
+        </aside>
+
+        <section class="library-column">
+            <div class="section-card library-card">
+                <div class="library-card__header">
+                    <div>
+                        <span class="eyebrow">Recipe library</span>
+                        <h2>Your collection</h2>
+                    </div>
+                    <p>{{ recipes|length }} recipe{% if recipes|length != 1 %}s{% endif %} ready to browse.</p>
+                </div>
+
+                {% if recipes is empty %}
+                    <div id="recipe-list-empty" class="empty-state">
+                        <div class="empty-state__icon">+</div>
+                        <h3>No recipes yet</h3>
+                        <p>Start with a favorite meal, dessert, or quick snack and your cookbook will grow from there.</p>
+                    </div>
+                {% endif %}
+
+                <div id="recipe-list" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    {% for recipe in recipes %}
+                        {{ include('recipe/_card.html.twig') }}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
     </section>
 </main>
 {% endblock %}

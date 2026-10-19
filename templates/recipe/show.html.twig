@@ -3,47 +3,84 @@
 {% block title %}{{ recipe.title }} – Cookbook{% endblock %}
 
 {% block body %}
-<main class="container py-4" style="max-width: 800px;">
-    <a href="{{ path('app_home') }}" class="btn btn-link px-0 mb-3">← Back to all recipes</a>
+{% set steps = recipe.instructions|replace({"\r": ''})|split('\n')|map(step => step|trim)|filter(step => step != '') %}
+<main class="recipe-detail">
+    <a href="{{ path('app_home') }}" class="back-link">← Back to all recipes</a>
 
-    <h1 class="text-break">{{ recipe.title }}</h1>
-    <p class="text-muted">⏱ Preparation time: {{ recipe.preparationTime }} min</p>
+    <section class="detail-hero">
+        <div class="detail-hero__content">
+            <span class="eyebrow">Recipe details</span>
+            <h1 class="text-break">{{ recipe.title }}</h1>
 
-       <section class="mb-4" data-controller="scale">
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-            <h2 class="h4 mb-0">Ingredients</h2>
-
-            <div class="d-flex align-items-center gap-2">
-                <label for="scale-factor" class="form-label mb-0">Multiply by</label>
-                <input type="number" id="scale-factor"
-                       class="form-control" style="width: 6rem;"
-                       value="1" min="0.1" step="any"
-                       data-scale-target="factor"
-                       data-action="input->scale#update">
+            <div class="detail-hero__chips">
+                <span class="detail-chip">⏱ {{ recipe.preparationTime }} min</span>
+                <span class="detail-chip">{{ recipe.ingredients|length }} ingredient{% if recipe.ingredients|length != 1 %}s{% endif %}</span>
             </div>
+
+            <p class="detail-hero__summary">
+                Everything you need is organized below: adjustable ingredients, a clean visual header, and instructions broken into easier reading blocks.
+            </p>
         </div>
 
-        <ul class="list-group">
-            {% for ingredient in recipe.ingredients %}
-                <li class="list-group-item">
-                    <span class="fw-semibold">
-                        <span data-scale-target="amount" data-base-amount="{{ ingredient.amount }}">{{ ingredient.amount }}</span>
-                        {{ ingredient.unit.label }}
-                    </span>
-                    {{ ingredient.name }}
-                </li>
-            {% endfor %}
-        </ul>
+        {% if recipe.imageFilename %}
+            <img src="{{ asset('uploads/recipes/' ~ recipe.imageFilename) }}"
+                 class="detail-hero__image"
+                 alt="{{ recipe.title }}">
+        {% else %}
+            <div class="detail-hero__image detail-hero__image--placeholder">
+                {{ recipe.title|slice(0, 1)|upper }}
+            </div>
+        {% endif %}
     </section>
-     {# Imageeeeeeeee #}
-    {% if recipe.imageFilename %}
-        <img src="{{ asset('uploads/recipes/' ~ recipe.imageFilename) }}"
-             class="img-fluid rounded mb-4 w-100" style="max-height: 400px; object-fit: cover;"
-             alt="{{ recipe.title }}">
-    {% endif %}
-    <section>
-        <h2 class="h4">Instructions</h2>
-        <p>{{ recipe.instructions|nl2br }}</p>
-    </section>
+
+    <div class="detail-grid">
+        <section class="section-card" data-controller="scale">
+            <div class="detail-section__header">
+                <div>
+                    <span class="eyebrow">Ingredients</span>
+                    <h2>Scale for any portion</h2>
+                </div>
+
+                <div class="scale-control">
+                    <label for="scale-factor" class="form-label mb-0">Multiply by</label>
+                    <input type="number" id="scale-factor"
+                           class="form-control"
+                           value="1" min="0.1" step="any"
+                           data-scale-target="factor"
+                           data-action="input->scale#update">
+                </div>
+            </div>
+
+            <div class="ingredient-list">
+                {% for ingredient in recipe.ingredients %}
+                    <div class="ingredient-list__item">
+                        <span class="ingredient-list__amount">
+                            <span data-scale-target="amount" data-base-amount="{{ ingredient.amount }}">{{ ingredient.amount }}</span>
+                            {{ ingredient.unit.label }}
+                        </span>
+                        <span>{{ ingredient.name }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="detail-section__header">
+                <div>
+                    <span class="eyebrow">Method</span>
+                    <h2>Cook step by step</h2>
+                </div>
+            </div>
+
+            <div class="instruction-list">
+                {% for step in steps %}
+                    <div class="instruction-list__item">
+                        <span class="instruction-list__index">{{ loop.index }}</span>
+                        <p>{{ step|trim }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
 </main>
 {% endblock %}

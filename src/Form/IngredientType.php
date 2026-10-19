@@ -17,7 +17,7 @@ class IngredientType extends AbstractType
     {
         $builder
             ->add('amount', IntegerType::class, [
-                'attr' => ['min' => 1],
+                'attr' => ['min' => 1, 'placeholder' => '2'],
             ])
             ->add('unit', EnumType::class, [
                 'class' => Unit::class,

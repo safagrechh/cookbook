@@ -1,10 +1,12 @@
-<div class="row g-2 align-items-start" data-form-collection-item>
-    <div class="col-3">{{ form_row(ingredient.amount) }}</div>
-    <div class="col-3">{{ form_row(ingredient.unit) }}</div>
-    <div class="col-4">{{ form_row(ingredient.name) }}</div>
-    <div class="col-2 pt-4 mt-2">
-        <button type="button" class="btn btn-outline-danger w-100" data-action="form-collection#remove">
-            Remove
-        </button>
+<div class="ingredient-row" data-form-collection-item>
+    <div class="row g-3 align-items-end">
+        <div class="col-md-3">{{ form_row(ingredient.amount) }}</div>
+        <div class="col-md-3">{{ form_row(ingredient.unit) }}</div>
+        <div class="col-md-6">{{ form_row(ingredient.name) }}</div>
+        <div class="col-12">
+            <button type="button" class="btn btn-outline-danger ingredient-row__remove w-100" data-action="form-collection#remove">
+                Remove
+            </button>
+        </div>
     </div>
 </div>

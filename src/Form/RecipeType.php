@@ -18,12 +18,14 @@ class RecipeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
+            ->add('title', TextType::class, [
+                'attr' => ['placeholder' => 'e.g. Lemon pasta with basil'],
+            ])
             ->add('preparationTime', IntegerType::class, [
                 'label' => 'Preparation time (minutes)',
-                'attr' => ['min' => 1],
+                'attr' => ['min' => 1, 'placeholder' => '30'],
             ])
-                        ->add('image', FileType::class, [
+            ->add('image', FileType::class, [
                 'label' => 'Image (optional)',
                 'mapped' => false,
                 'required' => false,
@@ -42,7 +44,10 @@ class RecipeType extends AbstractType
                 'label' => false,
             ])
             ->add('instructions', TextareaType::class, [
-                'attr' => ['rows' => 6],
+                'attr' => [
+                    'rows' => 6,
+                    'placeholder' => "Write the recipe steps on separate lines for a cleaner detail page.\nExample:\nCook the pasta until al dente.\nWhisk the sauce.\nToss everything together and serve.",
+                ],
             ]);
     }
 

@@ -10,6 +10,13 @@ export default class extends Controller {
     add() {
         const html = this.prototypeValue.replace(/__name__/g, this.indexValue);
         this.collectionContainerTarget.insertAdjacentHTML('beforeend', html);
+        const newItem = this.collectionContainerTarget.lastElementChild;
+
+        if (newItem) {
+            newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            newItem.querySelector('input, select, textarea')?.focus();
+        }
+
         this.indexValue++;
     }
 
