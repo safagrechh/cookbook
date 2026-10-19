@@ -37,4 +37,12 @@ class RecipeController extends AbstractController
             'recipes' => $recipeRepository->findBy([], ['id' => 'DESC']),
         ]);
     }
+
+        #[Route('/recipe/{id}', name: 'app_recipe_show', requirements: ['id' => '\d+'])]
+    public function show(Recipe $recipe): Response
+    {
+        return $this->render('recipe/show.html.twig', [
+            'recipe' => $recipe,
+        ]);
+    }
 }

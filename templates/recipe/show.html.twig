@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ recipe.title }} – Cookbook{% endblock %}
+
+{% block body %}
+<main class="container py-4" style="max-width: 800px;">
+    <a href="{{ path('app_home') }}" class="btn btn-link px-0 mb-3">← Back to all recipes</a>
+
+    <h1 class="text-break">{{ recipe.title }}</h1>
+    <p class="text-muted">⏱ Preparation time: {{ recipe.preparationTime }} min</p>
+
+    <section class="mb-4">
+        <h2 class="h4">Ingredients</h2>
+        <ul class="list-group">
+            {% for ingredient in recipe.ingredients %}
+                <li class="list-group-item">
+                    <span class="fw-semibold">{{ ingredient.amount }} {{ ingredient.unit.label }}</span>
+                    {{ ingredient.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section>
+        <h2 class="h4">Instructions</h2>
+        <p>{{ recipe.instructions|nl2br }}</p>
+    </section>
+</main>
+{% endblock %}

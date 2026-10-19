@@ -44,7 +44,19 @@
             {{ form_end(form) }}
         </div>
     </section>
+    
+    <section>
+        <h2 class="h4 mb-3">Recipes</h2>
 
-    {# Step 4: recipe cards go here #}
+        {% if recipes is empty %}
+            <p class="text-muted">No recipes yet. Add your first one above!</p>
+        {% else %}
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                {% for recipe in recipes %}
+                    {{ include('recipe/_card.html.twig') }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
 </main>
 {% endblock %}
