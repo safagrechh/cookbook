@@ -104,6 +104,8 @@ Without the Symfony CLI: `php -S 127.0.0.1:8000 -t public`
 
 | `templates/recipe/created.stream.html.twig` | Bonus 2: Turbo Stream response after saving |
 
+| `assets/styles/app.css` |	Custom styling on top of Bootstrap
+
 
 
 \## Design decisions
